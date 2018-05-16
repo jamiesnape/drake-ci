@@ -193,5 +193,14 @@ if(DOCUMENTATION)
   endif()
 endif()
 
+set(DASHBOARD_TESTLOGS_DIRECTORY "${DASHBOARD_SOURCE_DIRECTORY}/bazel-testlogs")
+if(EXISTS "${DASHBOARD_TESTLOGS_DIRECTORY}")
+  message(STATUS "Merging test.xml files...")
+  execute_process(COMMAND "${DASHBOARD_TOOLS_DIR}/merge_junit_test_xml.py" "${DASHBOARD_TESTLOGS_DIRECTORY}" "${DASHBOARD_WORKSPACE}/junit.xml"
+    OUTPUT_VARIABLE DASHBOARD_MERGE_JUNIT_TEST_XML_OUTPUT_VARIABLE
+    ERROR_VARIABLE DASHBOARD_MERGE_JUNIT_TEST_XML_OUTPUT_VARIABLE)
+  message("${DASHBOARD_MERGE_JUNIT_TEST_XML_OUTPUT_VARIABLE}")
+endif()
+
 # Report dashboard status
 execute_step(common report-status)
